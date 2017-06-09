@@ -44,7 +44,7 @@
     var Creds = credentials;
     console.log('here '+account);
     
-    var isValidPassword = function(userpass,password){
+    var isValidPassword = function(userpass,password)   {
       return bCrypt.compareSync(password, userpass);
     }
 
