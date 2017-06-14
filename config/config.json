@@ -1,5 +1,5 @@
-{
- 
+
+ {
     "development": {
  
         "username": "root",
@@ -9,11 +9,29 @@
         "database": "hivestag_kamio_v56_gamma",
  
         "host": "127.0.0.1",
+
+        "server": "localhost",        
  
         "dialect": "mysql"
  
     },
+    "localhost": {
  
+        "username": "root",
+ 
+        "password": "admin11",
+ 
+        "database": "hivestag_kamio_v56_gamma",
+ 
+        "host": "127.0.0.1",        
+
+        "server": "localhost",        
+ 
+        "dialect": "mysql"
+ 
+    },
+
+
     "test": {
  
         "username": "",
@@ -41,5 +59,4 @@
         "dialect": "mysql"
  
     }
- 
-}
+ }
