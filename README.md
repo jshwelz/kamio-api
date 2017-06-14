@@ -28,6 +28,8 @@ config/auth.json
   var env = process.env.NODE_ENV || "localhost";
 
   change this to your fb App
+	
+	
 	'facebookAuth': {
 		'clientID': '468375303497625', // your App ID
 		'clientSecret': '1f426ee239da586f1e63e14508a0b4fb', // your App Secret
