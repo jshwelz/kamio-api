@@ -16,6 +16,10 @@ router.get('/profile', function (req, res) {
 	res.status(200).json("sds");
 });
 
+
+router.get('/pantallas',ctrlAuth.pantallas);
+
+
 router.get('/auth/facebook/callback', ctrlAuth.loginFb);
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
