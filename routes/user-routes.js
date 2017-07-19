@@ -11,18 +11,17 @@ var auth = jwt({
 var ctrlAuth = require('../controllers/user-controller');
 
 router.get('/test', ctrlAuth.test);
-router.post('/', ctrlAuth.login);
+
 router.get('/profile', function (req, res) {
 	res.status(200).json("sds");
 });
 
 
-router.get('/pantallas',ctrlAuth.pantallas);
-
 
 router.get('/auth/facebook/callback', ctrlAuth.loginFb);
 router.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
-
+router.post('/', ctrlAuth.login);
+//router.post('/auth/login', ctrlAuth.login);
 
 
 

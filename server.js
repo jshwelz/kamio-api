@@ -25,8 +25,9 @@ app.use("/api/users", routesUser);
 
 
 var models = require("./models/db");
-require('./config/passport')(passport, models.credentials);
 
+require('./config/passport')(passport, models.credentials,models.users);
+//require('./config/passport')(passport, models.users);
 
 //Sync Database
 models.sequelize.sync().then(function () {

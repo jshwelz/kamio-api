@@ -3,9 +3,10 @@
 var bCrypt = require('bcrypt-nodejs');
 var configAuth = require('./auth');
 
-module.exports = function (passport, credentials) {
+module.exports = function (passport, credentials, users) {
 
     var Creds = credentials;
+    var User = users;
     var LocalStrategy = require('passport-local').Strategy;
     var FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -76,16 +77,19 @@ module.exports = function (passport, credentials) {
         }
     ));
 
-
     // =========================================================================
     // FACEBOOK ================================================================
     // =========================================================================
+
+
+    
 
     passport.use(new FacebookStrategy({
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
         callbackURL: configAuth.facebookAuth.callbackURL,
-        enableProof: true
+        enableProof: true,
+        profileFields: ['id', 'emails', 'name']
     },
         // facebook will send back the token and profile
         function (token, refreshToken, profile, done) {
@@ -96,28 +100,48 @@ module.exports = function (passport, credentials) {
                 // find the user in the database based on their facebook id                
 
                 Creds.findOne({ where: { account: profile.id } }).then(function (user) {
-                    //console.log(user);
                     if (!user) {
-                        var data =
+
+
+                        var user =
                             {
-                                user_id: 16,
-                                account: profile.id,
-                                token: token,
-                                secret: " ",
-                                type: "facebook"
+                                slug: profile.first_name,
+                                logins: 0,
+                                email: profile.emails[0].value,
+                                latest: 0,
+                                created: 0,
+                                updated: 0,
+                                status: "pending"
                             };
 
-                        Creds.create(data).then(function (newUser, created) {
-                            if (!newUser) {
+                        User.create(user).then(function (newUserID, created) {
+                            if (!newUserID) {
                                 return done(null, false);
                             }
 
-                            if (newUser) {
-                                return done(null, newUser);
+                            if (newUserID) {                                
+                                var _id = newUserID.id;
+                                var data =
+                                    {
+                                        user_id: _id,
+                                        account: profile.id,
+                                        token: token,
+                                        secret: " ",
+                                        type: "facebook"
+                                    };
+                                Creds.create(data).then(function (newUser, created) {
+                                    if (!newUser) {
+                                        return done(null, false);
+                                    }
 
+                                    if (newUser) {
+                                        return done(null, newUser);
+                                    }
+                                });
                             }
                         });
-                        // return done(null, false, { message: 'Email does not exist' });
+
+
                     } else {
                         var userinfo = user.get();
                         console.log(userinfo);
