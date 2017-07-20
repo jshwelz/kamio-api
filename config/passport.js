@@ -86,12 +86,6 @@ module.exports = function (passport, credentials, users) {
 
 
 
-
-
-
-
-
-
     passport.use(new FacebookStrategy({
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
